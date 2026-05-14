@@ -33,11 +33,13 @@ class DenoisingAutoencoder(nn.Module):
         out = self.decoder(z)
         return out
 
+# add noise to 30% of pixels, so later neural network learns automatically to clean noise
 def add_noise(inputs, noise_factor=0.3):
     noisy = inputs + noise_factor * torch.randn_like(inputs)
     return torch.clip(noisy, 0., 1.)
 
 transform = transforms.ToTensor()
+# download handwritten numbers from Mnist dataset
 train_data = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
 train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
 
